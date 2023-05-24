@@ -1,4 +1,4 @@
-package com.example.EFXjavatesttask.util;
+package com.example.EFXjavatesttask.parser;
 
 import com.example.EFXjavatesttask.model.Price;
 
