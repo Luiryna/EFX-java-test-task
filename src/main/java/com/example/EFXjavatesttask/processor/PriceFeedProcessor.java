@@ -6,5 +6,4 @@ public interface PriceFeedProcessor {
 
     void onMessage(String message);
 
-    Price getLastPrice();
 }

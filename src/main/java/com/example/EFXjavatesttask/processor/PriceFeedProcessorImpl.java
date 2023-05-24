@@ -4,6 +4,7 @@ import com.example.EFXjavatesttask.controller.PriceController;
 import com.example.EFXjavatesttask.exception.PriceFeedException;
 import com.example.EFXjavatesttask.model.Price;
 import com.example.EFXjavatesttask.parser.CSVParser;
+import com.example.EFXjavatesttask.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,23 +22,19 @@ public class PriceFeedProcessorImpl implements PriceFeedProcessor {
 
     @Autowired
     private CSVParser csvParser;
-
     @Autowired
-    private PriceController priceController;
+    private PriceService priceService;
 
     @Override
     public void onMessage(String message) {
         priceList = feedPrices(message);
         try {
-            priceController.publishPrices(priceList);
-        } catch (IOException e) {
+            priceService.loadPrices(priceList);
+        } catch (Exception e) {
             throw new PriceFeedException("Error while publishing prices: " + e.getMessage());
         }
     }
 
-    public Price getLastPrice() {
-        return priceList.get(priceList.size() - 1);
-    }
 
     private List<Price> feedPrices(String message) {
         List<Price> priceList = new ArrayList<>();
